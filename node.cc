@@ -1,7 +1,6 @@
-// Copyright 2018 <Author>
+// Copyright 2018 <nke94@samsung.com>
 
 #include "node.h"
-
 
 #ifndef NULL
 #define NULL 0
