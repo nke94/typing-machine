@@ -38,6 +38,7 @@ private:
   static void InsertPreviousNodeTest(){
 	Node* entryNode = new Node('0');
 	Node* appendedNode = entryNode->InsertPreviousNode('a');
+	ASSERT_NE(appendedNode, (Node*)NULL);
 	EXPECT_TRUE(appendedNode->GetData() == 'a');
 	ASSERT_NE(appendedNode->GetNextNode(), (Node*)NULL);
 	EXPECT_TRUE(appendedNode->GetNextNode()->GetData() == '0');
@@ -49,6 +50,7 @@ private:
   static void InsertNextNodeTest(){
 	  Node* entryNode = new Node('0');
 	  Node* appendedNode = entryNode->InsertNextNode('a');
+	  ASSERT_NE(appendedNode, (Node*)NULL);
 	  EXPECT_TRUE(appendedNode->GetData() == 'a');
 	  ASSERT_NE(appendedNode->GetPreviousNode(), (Node*)NULL);
 	  EXPECT_TRUE(appendedNode->GetPreviousNode()->GetData() == '0');
@@ -79,9 +81,10 @@ private:
 		entryNode->ErasePreviousNode();
 		EXPECT_TRUE(entryNode->GetPreviousNode()->GetData() == 'b');
 
+		EXPECT_TRUE(entryNode->ErasePreviousNode() == true);
+		EXPECT_TRUE(entryNode->ErasePreviousNode() == false);
 
 		delete entryNode;
-		delete appendedNode2;
 	}
 
 	static void EraseNextNodeTest(){
@@ -93,12 +96,13 @@ private:
 		EXPECT_TRUE(appendedNode2->GetData() == 'b');
 		
 
-		entryNode->EraseNextNode();
+		EXPECT_TRUE(entryNode->EraseNextNode() == true);
 		EXPECT_TRUE(entryNode->GetNextNode()->GetData() == 'b');
 
+		EXPECT_TRUE(entryNode->EraseNextNode() == true);
+		EXPECT_TRUE(entryNode->EraseNextNode() == false);
 
 		delete entryNode;
-		delete appendedNode2;
 	}
 
 public:
@@ -109,9 +113,45 @@ public:
 	}
 };
 
+
+class GetNodeTestSuite
+{
+private:
+	static void GetPreviousNodeTest() {
+		Node *FirstNode = new Node('A');
+
+		Node *SecondNode = FirstNode->InsertPreviousNode('B');
+		Node *ThirdNode = SecondNode->InsertPreviousNode('C');
+
+		ASSERT_NE(FirstNode->GetPreviousNode(), (Node*)0);
+		ASSERT_NE(SecondNode->GetPreviousNode(), (Node*)0);
+		ASSERT_EQ(ThirdNode->GetPreviousNode(), (Node*)0);
+		
+	}
+
+	static void GetNextNodeTest(){
+		Node *FirstNode = new Node('A');
+
+		Node *SecondNode = FirstNode->InsertNextNode('B');
+		Node *ThirdNode = SecondNode->InsertNextNode('C');
+
+		ASSERT_NE(FirstNode->GetNextNode(), (Node*)0);
+		ASSERT_NE(SecondNode->GetNextNode(), (Node*)0);
+		ASSERT_EQ(ThirdNode->GetNextNode(), (Node*)0);
+		
+	}
+
+public:
+	static void RunTest() {
+		GetPreviousNodeTest();
+		GetNextNodeTest();
+	}
+};
+
 void NodeTest() {
   NodeConstructorTestSuite::RunTest();
   InsertNodeTestSuite::RunTest();
   EraseNodeTestSuite::RunTest();
+  GetNodeTestSuite::RunTest();
   // add more..
 }

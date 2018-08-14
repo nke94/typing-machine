@@ -18,10 +18,9 @@ class TypingMachine {
   bool EraseKey();
   std::string Print(char separator);
 
-public:
+private:
   Node* cursor;
   Node* start;
-private:
   int length;
 };
 

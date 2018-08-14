@@ -7,7 +7,6 @@
 #define HEAD_MARKER 1
 
 TypingMachine::TypingMachine() {
-
   start = cursor = new Node(HEAD_MARKER);
   length = 0;
   return;
@@ -48,7 +47,6 @@ bool TypingMachine::TypeKey(char key) {
 }
 
 bool TypingMachine::EraseKey() {
-
   if (cursor->GetData() == HEAD_MARKER)
     return false;
   cursor = cursor->GetPreviousNode();

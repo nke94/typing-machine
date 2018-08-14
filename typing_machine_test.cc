@@ -55,12 +55,78 @@ public:
 	}
 };
 
-class SomeOtherTestSuite
+
+class TmNavigatorTestSuite
 {
 private:
+	static void StepNavigation() {
+		TypingMachine tm;
+		tm.TypeKey('a');
+		tm.TypeKey('b');
+		tm.TypeKey('c');
+
+		tm.LeftKey();
+		ASSERT_EQ(tm.Print('|'), std::string("ab|c"));
+		tm.LeftKey();
+		ASSERT_EQ(tm.Print('|'), std::string("a|bc"));
+		tm.LeftKey();
+		ASSERT_EQ(tm.Print('|'), std::string("|abc"));
+		tm.LeftKey();
+		ASSERT_EQ(tm.Print('|'), std::string("|abc"));
+
+		tm.RightKey();
+		ASSERT_EQ(tm.Print('|'), std::string("a|bc"));
+		tm.RightKey();
+		ASSERT_EQ(tm.Print('|'), std::string("ab|c"));
+		tm.RightKey();
+		ASSERT_EQ(tm.Print('|'), std::string("abc|"));
+		tm.RightKey();
+		ASSERT_EQ(tm.Print('|'), std::string("abc|"));
+
+	}
+
+	static void HotKeyNavigation() {
+		TypingMachine tm;
+		tm.TypeKey('a');
+		tm.TypeKey('b');
+		tm.TypeKey('c');
+
+		tm.HomeKey();
+		ASSERT_EQ(tm.Print('|'), std::string("|abc"));
+		tm.HomeKey();
+		ASSERT_EQ(tm.Print('|'), std::string("|abc"));
+
+		tm.EndKey();
+		ASSERT_EQ(tm.Print('|'), std::string("abc|"));
+		tm.EndKey();
+		ASSERT_EQ(tm.Print('|'), std::string("abc|"));
+	}
 
 public:
+	static void RunTest() {
+		StepNavigation();
+		HotKeyNavigation();
+		// add more..
+	}
+};
+
+class TmEraseTestSuite
+{
+private:
+	static void EraseKey() {
+		TypingMachine tm;
+		tm.TypeKey('a');
+		tm.TypeKey('b');
+		tm.TypeKey('c');
+
+		EXPECT_TRUE(tm.EraseKey() == true);
+		EXPECT_TRUE(tm.EraseKey() == true);
+		EXPECT_TRUE(tm.EraseKey() == true);
+		EXPECT_TRUE(tm.EraseKey() == false);
+	}
+public:
   static void RunTest() {
+	  EraseKey();
     // add more..
   }
 };
@@ -68,5 +134,7 @@ public:
 void TypingMachineTest() {
   TmConstructorTestSuite::RunTest();
   TmAddKeyTestSuite::RunTest();
+  TmNavigatorTestSuite::RunTest();
+  TmEraseTestSuite::RunTest();
   // add more..
 }

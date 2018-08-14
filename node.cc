@@ -17,11 +17,11 @@ char Node::GetData() {
 }
 
 Node* Node::GetPreviousNode() {
-  return (Node*)prev;
+  return prev;
 }
 
 Node* Node::GetNextNode() {
-  return (Node*)next;
+  return next;
 }
 
 Node* Node::InsertPreviousNode(char data) {
@@ -69,8 +69,7 @@ bool Node::ErasePreviousNode() {
   if (prevNode != NULL) prevNode->next = nextNode;
   if (nextNode != NULL) nextNode->prev = prevNode;
   
-  if (currNode != NULL)
-    delete currNode;
+  delete currNode;
   return true;
 }
 
@@ -85,8 +84,7 @@ bool Node::EraseNextNode() {
     prevNode->next = nextNode;
   if (nextNode != NULL)
     nextNode->prev = prevNode;
-
-  if(currNode != NULL)
-    delete currNode;
+  
+  delete currNode;
   return true;
 }
